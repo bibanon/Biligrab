@@ -892,14 +892,14 @@ def main(vid, p, oversea, cookies, download_software, concat_software, is_export
 #        folder = title
 #    else:
 #        folder = cid
-        folder = '%s-%s' % (vid, cid)
+        folder = 'bilibili-av{vid}-{cid}'.format(vid = vid, cid = metadata['cid'])
     if len(partname) is not 0:
         filename = partname
 #    elif title is not '':
 #        filename = title
     else:
 #        filename = cid
-        filename = '%s-%s' % (vid, cid)
+        filename = 'bilibili-av{vid}-{cid}'.format(vid = vid, cid = metadata['cid'])
     #In case cannot find which s which
     filename = str(p) + ' - ' + filename
     # In case make too much folders
