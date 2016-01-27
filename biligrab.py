@@ -887,17 +887,19 @@ def main(vid, p, oversea, cookies, download_software, concat_software, is_export
             raise NoCidException('FATAL: Cannot get cid anyway!')
         else:
             cid = str(is_black3)
-    # start to make folders...
+    # start to make folders (use vid+cid instead of title as folder name!)...
     if title is not '':
-        folder = title
-    else:
-        folder = cid
+#        folder = title
+#    else:
+#        folder = cid
+        folder = '%s-%s' % (vid, cid)
     if len(partname) is not 0:
         filename = partname
-    elif title is not '':
-        filename = title
+#    elif title is not '':
+#        filename = title
     else:
-        filename = cid
+#        filename = cid
+        filename = '%s-%s' % (vid, cid)
     #In case cannot find which s which
     filename = str(p) + ' - ' + filename
     # In case make too much folders
