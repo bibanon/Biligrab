@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/python3
 # Grabs the metadata for a video from Bilibili.
 # borrowed from bilidan.py: https://github.com/m13253/BiliDan/
 # Developed by Antonizoon for the Bibliotheca Anonoma.
 
+import os
 import sys
 import json
 import logging
@@ -17,6 +18,11 @@ USER_AGENT_PLAYER = 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:6.0.2) Gecko/2010010
 APPKEY = '85eb6835b0a1034e'  # The same key as in original Biligrab
 APPSEC = '2ad42749773c441109bdc0191257a664'  # Do not abuse please
 
+def mkdirs(path):
+	"""Make directory, if it doesn't exist."""
+	if not os.path.exists(path):
+		os.makedirs(path)
+
 def bilibili_hash(args):
     '''Calculate API signature hash
 
@@ -26,7 +32,7 @@ def bilibili_hash(args):
     '''
     return hashlib.md5((urllib.parse.urlencode(sorted(args.items()))+APPSEC).encode('utf-8')).hexdigest()  # Fuck you bishi
 
-def fetch_url(url, *, user_agent=USER_AGENT_PLAYER, cookie=None, fakeip=None):
+def fetch_url(url, user_agent=USER_AGENT_PLAYER, cookie=None, fakeip=None):
     '''Fetch HTTP URL
 
     Arguments: url, user_agent, cookie
@@ -87,11 +93,18 @@ def main():
     p = 1 # just use page 1 to get the metadata
     metadata = fetch_video_metadata(vid, p)
     
-    # append URL to the metadata
+    # append vid and URL to the metadata
+    metadata['vid'] = vid
     metadata['url'] = 'http://www.bilibili.com/video/av{vid}/'.format(vid = vid)
     
-    # write to JSON file
-    obj2json(metadata, 'bilibili-av{vid}-{cid}.json'.format(vid = vid, cid = metadata['cid']))
+    # create or use a working directory
+    workdir = 'bilibili-av{vid}'.format(vid = vid)
+    mkdirs(workdir)
+    
+    # write to JSON file in a working directory
+    json_fname = 'bilibili-av{vid}.json'.format(vid = vid)
+    json_path = os.path.join(workdir, json_fname)
+    obj2json(metadata, json_path)
     
 if __name__ == '__main__':
     main()
