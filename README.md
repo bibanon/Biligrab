@@ -1,4 +1,4 @@
-Biligrab
+Biligrab + Biliup
 ========
 
 Yet another automatic/semi-automatic/manual danmaku and video file downloader of Bilibili.
@@ -20,6 +20,44 @@ Able to export danmaku only.
 Or, if you prefer, Biligrab can export a M3U file, with which you can play danmaku without waiting with players like MPlayer, MPC or VLC, etc. 
 
 Comes with a built-in multi-part download, useful to reduce slow overheads.
+
+Biliup
+------
+
+The Bibliotheca Anonoma has added an additional script to download and upload a Bilibili video using the link.
+
+```
+biliup.py - Download a Bilibili video with comments, then upload to the Internet Archive.
+If the video has more than 1 part, you can specify them manually to download.
+If the download doesn't work at first, set a different source for BiliDan to use (1 is preferred outside China):
+0 - API, 1 - CDN Overseas, 2 - Origin Source , 3 - Exper. HTML5, 4 - Flvcd (for Youku), 5 - BilibiliPr, 6 - You-get
+
+Usage:
+  biliup.py <url>
+  biliup.py <url> [--source <src>]
+  biliup.py <url> [--source <src>] [--part <p>]...
+  biliup.py -h | --help
+
+Arguments:
+  <url>           The Bilibili URL to download, in this format: http://www.bilibili.com/video/av314/
+
+Options:
+  -h --help       Show this screen.
+  --source <src>  Video Source to download from [default: 0].
+  --part <p>      Video part to download [default: 0]
+```
+
+Example:
+
+> All of these will upload to http://archive.org/details/bilibili-av<vid> :
+
+```
+# Download a video with Experimental HTML5 source
+python3 biliup.py http://www.bilibili.com/video/av1326828/ --source 3
+
+# Download a video with 3 parts (bilidan is supposed to do this automatically but it doesn't, so you'll have to do it manually)
+python3 biliup.py http://www.bilibili.com/video/av1730836/ --part 1 --part 2 --part 3
+```
 
 Usage
 ------
